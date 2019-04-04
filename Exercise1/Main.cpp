@@ -24,12 +24,32 @@ void resetVariables()
 	decimal_key_is_pressed = false;
 }
 
+// function that removes ending zeros from the string
+string TrimString(string str)
+{
+	string::size_type st = str.length() - 1;
+
+	for (st; st > 0; --st)
+	{
+		if (str[st] == '0')
+			str.erase(st, 1);
+		else
+			break;
+	}
+
+	if (str[str.length() - 1] == '.')
+		str.erase(st, 1);
+
+	return str;
+}
+
+
 // auxiliary function for printing the first number and set other values
 void printNewLineResultAndPutFirstNumberBackToTheString()
 	{
 	cout << endl << wakka << first_number_for_the_operation; // and use it as a first number for the next operation
-	keys_before_the_operation_typed = to_string(first_number_for_the_operation);  // convert number to the left string 
-	decimal_key_is_pressed = (keys_before_the_operation_typed.find('.') != string::npos); // find if number is decimal and set the bool value
+	keys_before_the_operation_typed = TrimString(to_string(first_number_for_the_operation));  // convert number to the left string 
+	decimal_key_is_pressed = keys_before_the_operation_typed.find('.') != string::npos; // find if number is decimal and set the bool value
 	}
 
 
@@ -104,10 +124,11 @@ int main()
 					}
 				}
 				cout << wakka << first_number_for_the_operation; // print the result
-				keys_before_the_operation_typed = to_string(first_number_for_the_operation); // put first number back in the string before the operation
+				keys_before_the_operation_typed = TrimString(to_string(first_number_for_the_operation)); // put first number back in the string before the operation
 				keys_after_the_operation_typed = ""; // clear the 'after the operation' string 
 				active_number = 1; // set active number as first
-				decimal_key_is_pressed = (keys_before_the_operation_typed.find('.') != string::npos);  // find if number is decimal and set the bool value
+				decimal_key_is_pressed = keys_before_the_operation_typed.find('.') != string::npos;  // find if number is decimal and set the bool value
+				//cout << "decimal_key_is_pressed " <<decimal_key_is_pressed;
 				break;
 
 				// if "S" is pressed
